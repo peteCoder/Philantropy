@@ -14,10 +14,11 @@ urlpatterns = [
     #path('api/', include('comment.api.urls')),
 ]
 
-#if settings.DEBUG == False:
-#	handler404 = 'blogapp.views.custom_page_not_found'
-#	handler403 = 'blogapp.views.custom_permission_denied'
-	#handler400 = 'blogapp.views.custom_bad_request'
+if settings.DEBUG == False:
+	handler404 = 'blogapp.views.custom_page_not_found'
+	handler403 = 'blogapp.views.custom_permission_denied'
+	handler400 = 'blogapp.views.custom_bad_request'
+	handler500 = 'blogapp.views.custom_error_view'
 
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
