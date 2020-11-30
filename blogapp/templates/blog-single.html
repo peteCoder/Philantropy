@@ -1,0 +1,239 @@
+
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block content %}
+
+
+
+    <!-- Start header -->
+	<header class="top-navbar">
+		<nav class="navbar navbar-expand-lg navbar-light bg-light">
+			<div class="container-fluid">
+				<a class="navbar-brand" href="{% url 'home' %}">
+					<img src="{% static 'images/gift_a_child_logo.png' %}" alt="" style="max-width: 100px;"/>
+				</a>
+				<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbars-host" aria-controls="navbars-rs-food" aria-expanded="false" aria-label="Toggle navigation">
+					<span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+				</button>
+				<div class="collapse navbar-collapse" id="navbars-host">
+					<ul class="navbar-nav ml-auto">
+						<li class="nav-item"><a class="nav-link" href="{% url 'home' %}">Home</a></li>
+						<li class="nav-item"><a class="nav-link" href="{% url 'about' %}">About Us</a></li>
+						<li class="nav-item dropdown">
+							<a class="nav-link dropdown-toggle" href="#" id="dropdown-a" data-toggle="dropdown">Activities </a>
+							<div class="dropdown-menu" aria-labelledby="dropdown-a">
+								<a class="dropdown-item" href="{% url 'gallery' %}">Gallery</a>
+								
+							</div>
+						</li>
+						<li class="nav-item active">
+							<a class="nav-link" href="{% url 'blog' %}">Blog </a>
+						</li>
+							
+						<li class="nav-item"><a class="nav-link" href="{% url 'team' %}">Team</a></li>
+						<li class="nav-item"><a class="nav-link" href="{% url 'contact' %}">Contact</a></li>
+					</ul>
+
+					{% if not user.is_authenticated %}
+
+						<ul class="nav navbar-nav navbar-right">
+                    		<li><a class="hover-btn-new log orange" href="{% url 'login' %}"><span>Login</span></a></li>
+                		</ul>
+
+					{% else %}
+            			{% if user.profile.id %}
+            			  <ul class="navbar-nav ml-auto">
+              				<li class="nav-item dropdown">
+                				  <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            {{user.first_name}} {{user.last_name}}
+                          </a>
+                          <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                      		{% if user.is_staff %}
+		                        <a class="dropdown-item" href="{% url 'add_post' %}">Add Post</a>
+	                      	{% endif %}
+                			<a class="dropdown-item" href="{% url 'logout' %}">Logout</a>
+
+		      				  <a class="dropdown-item" href="{% url 'edit_profile' %}">Edit Profile Setting</a>
+		      				  {% if user.profile.id %}
+		      					<a class="dropdown-item" href="{% url 'edit_profile_page' user.profile.id %}">Edit Profile</a>
+		      					<a class="dropdown-item" href="{% url 'show_profile_page' user.profile.id %}">View Profile</a>
+		      				  {% else %}
+		      					<a class="dropdown-item" href="{% url 'create_profile_page' %}">Create Profile</a>
+		      				  {% endif %}
+			                </div>
+              				</li>
+            			  </ul>
+            			{% endif %}
+          		  	{% endif %}
+					
+				</div>
+			</div>
+		</nav>
+	</header>
+	<!-- End header -->
+	
+	<div class="all-title-box" style="background-image: url({% static 'images/crying-white-boy.jpg' %}); background-size:cover; background-repeat:no-repeat;">
+	  <div class="container text-center">
+	    <h1>Blog<span class="m_1"></span></h1>
+	  </div>
+	</div>
+	
+    <div id="overviews" class="section wb">
+        <div class="container">
+            <div class="row"> 
+                <div class="col-lg-9 blog-post-single">
+                    <div class="blog-item">
+						<div class="image-blog">
+							<img src="{{ obj.header_image.url }}" alt="" class="img-fluid">
+						</div>
+						<div class="post-content">
+							<div class="post-date">
+								<span class="day">{{ obj.day }}</span>
+								<span class="month">{{ obj.month }}</span>
+							</div>
+							<div class="meta-info-blog">
+								<span><i class="fa fa-calendar"></i> <a href="#">{{ obj.date_created }}</a> </span>
+								<span><i class="fa fa-list"></i>  <a href="{% url 'category' obj.category|slugify %}">{{ obj.category}}</a> </span>
+								
+							</div>
+							<div class="blog-title">
+								<h2><a href="#" title="">{{ obj.title }}</a></h2>
+							</div>
+							<div class="blog-desc">
+								{% if obj.title_intro %}
+								<p>{{ obj.title_intro|safe }}</p>
+								{% endif %}
+								{% if obj.quote %}
+								<blockquote class="default">
+									{{ obj.quote|safe }}
+								</blockquote>
+								{% endif %}
+								{% if obj.quote %}
+							        <p>{{ obj.body|safe }}</p>
+				                {% else %}
+		  		                <p style="font-size:100px;">
+		  		                  {{ obj.body|safe }}
+		  		                </p>
+				                {% endif %}
+								
+							</div>							
+						</div>
+					</div>
+					<div>
+						<div>
+						{% if obj.video_file %}
+							<video width=215 height="200" style="outline: none;" loop controls>
+								<source src="{{ obj.video_file.url }}" type="video/mp4" >
+								<source src="{{ obj.video_file.url }}" type="video/WebM" >
+								<source src="{{ obj.video_file.url }}" type="video/ogg" >
+								Your Browser does not support the Video file
+							</video>
+						{% endif %}
+						</div>
+					</div>
+					<br><br><br>
+				</div>
+				
+				<div class="container">
+		      		<br><br><br>
+		        	<form action="{% url 'like_post' obj.pk %}" method="POST">
+		            {% csrf_token %}
+		            {% if user.is_authenticated %}
+		              {% if liked %}
+		                <button type="submit" name="obj_id" value="{{ obj.pk }}" class="btn btn-danger btn-sm">Unlike</button>
+		              {% else %}
+		                <button type="submit" name="obj_id" value="{{ obj.pk }}" class="btn btn-primary btn-sm">Like</button>
+		              {% endif %}
+		            {% else %}
+		              <small><a href="">Login</a> to Like</small>
+		            {% endif %}
+		            - {{ total_likes }} Likes
+		            <br><br><br>
+		        	</form>
+				</div>
+			</div>
+
+				      	
+					
+			<div class="blog-author">
+				<div class="author-bio">
+					<h1 class="author_name">
+						{{obj.author.first_name}} {{ obj.author.last_name }}
+					</h1>
+					
+					<p class="author_det">
+						{{ obj.author.profile.bio }}
+					</p>
+				</div>
+				<div class="author-desc">
+					{% if obj.author.profile.profile_pic %}
+					<img src="{{ obj.author.profile.profile_pic.url }}" alt="about author">
+					{% else %}
+					<img src="{% static 'images/default.png' %}" class="card-img" alt="...">
+					{% endif %}
+					<ul class="author-social">
+						{% if obj.author.profile.facebook_url %}
+						<li><a href="{{obj.author.profile.facebook_url}}"><i class="fa fa-facebook"></i></a></li>
+						{% endif %}
+						{% if obj.author.profile.instagram_url %}
+						<li><a href="{{obj.author.profile.instagram_url}}"><i class="fa fa-twitter"></i></a></li>
+						{% endif %}
+						{% if obj.author.profile.pinterest_url %}
+						<li><a href="{{obj.author.profile.pinterest_url}}"><i class="fa fa-skype"></i></a></li>
+						{% endif %}
+
+					</ul>
+				</div>
+			</div>
+
+					<div class="blog-comments col-lg-12 col-md-6 col-sm-6">
+
+						{% load comment_tags %}
+
+						{% render_comments obj request %}
+						{% include_static %}
+						
+						
+					</div>
+					
+					
+					
+                </div><!-- end col -->
+				<div class="col-lg-3 col-12 right-single">
+					<div class="widget-search">
+						<div class="site-search-area">
+							<form method="get" id="site-searchform" action="#">
+								
+							</form>
+						</div>
+					</div>
+					<div class="widget-categories">
+						<h3 class="widget-title">Categories</h3>
+						<ul>
+							{% for item in cat_menu %}
+		              		<li><a class="dropdown-item" href="{% url 'category' item|slugify %}">{{item}}</a></li>
+		            		{% endfor %}
+						</ul>
+					</div>
+					<div class="widget-tags">
+						<h3 class="widget-title">Search Tags</h3>
+						<ul class="tags">
+							{% for item in cat_menu %}
+  						    <li>
+	  		                	<a class="dropdown-item" href="{% url 'category' item|slugify %}">{{item}}</a>
+	  		              	</li>
+		              	{% endfor %}
+						</ul>
+					</div>
+				</div>
+            </div><!-- end row -->
+        </div><!-- end container -->
+    </div><!-- end section -->
+
+    
+
+{% endblock %}

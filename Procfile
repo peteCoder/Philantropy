@@ -1,0 +1,1 @@
+web:gunicorn GACI.wsgi --log-file

@@ -1,0 +1,134 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}
+  Edit BlogPost
+{% endblock %}
+
+{% block content %}
+<!-- Start header -->
+  <header class="top-navbar">
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+      <div class="container-fluid">
+        <a class="navbar-brand" href="{% url 'home' %}">
+          <img src="{% static 'images/gift_a_child_logo.png' %}" alt="" style="max-width: 100px;"/>
+        </a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbars-host" aria-controls="navbars-rs-food" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbars-host">
+          <ul class="navbar-nav ml-auto">
+            <li class="nav-item"><a class="nav-link" href="{% url 'home' %}">Home</a></li>
+            <li class="nav-item"><a class="nav-link" href="{% url 'about' %}">About Us</a></li>
+            <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle" href="#" id="dropdown-a" data-toggle="dropdown">Activities </a>
+              <div class="dropdown-menu" aria-labelledby="dropdown-a">
+                <a class="dropdown-item" href="{% url 'gallery' %}">Gallery</a>
+                
+              </div>
+            </li>
+            <li class="nav-item active">
+              <a class="nav-link" href="{% url 'blog' %}">Blog </a>
+            </li>
+              
+            <li class="nav-item"><a class="nav-link" href="{% url 'team' %}">Team</a></li>
+            <li class="nav-item"><a class="nav-link" href="{% url 'contact' %}">Contact</a></li>
+          </ul>
+          {% if not user.is_authenticated %}
+
+            <ul class="nav navbar-nav navbar-right">
+                <li><a class="hover-btn-new log orange" href="{% url 'login' %}"><span>Login</span></a></li>
+            </ul>
+
+          {% else %}
+            {% if user.profile.id %}
+              <ul class="navbar-nav ml-auto">
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                      {{user.first_name}} {{user.last_name}}
+                    </a>
+                    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                      {% if user.is_staff %}
+                        <a class="dropdown-item" href="{% url 'add_post' %}">Add Post</a>
+                      {% endif %}
+                      <a class="dropdown-item" href="{% url 'logout' %}">Logout</a>
+
+                      <a class="dropdown-item" href="{% url 'edit_profile' %}">Edit Profile Setting</a>
+                      {% if user.profile.id %}
+                      <a class="dropdown-item" href="{% url 'edit_profile_page' user.profile.id %}">Edit Profile</a>
+                      <a class="dropdown-item" href="{% url 'show_profile_page' user.profile.id %}">View Profile</a>
+                      {% else %}
+                      <a class="dropdown-item" href="{% url 'create_profile_page' %}">Create Profile</a>
+                      {% endif %}
+                    </div>
+                </li>
+              </ul>
+            {% endif %}
+          {% endif %}
+    
+        </div>
+      </div>
+    </nav>
+  </header>
+  <!-- End header -->
+    
+    {% if user.is_staff %}
+      {% if user.id == post.author.id %}
+
+        <div class="all-title-box" style="background-image: url({% static 'images/crying-white-boy.jpg' %}); background-size:cover; background-repeat:no-repeat;">
+            <div class="container text-center">
+              <h1>Blog<span class="m_1">Edit Blog Post</span></h1>
+            </div>
+        </div>
+
+
+
+        <div class="contact_form make-p-white">
+            <div id="message"></div>
+            <form id="contactform" class="" action="" name="contactform" method="POST" enctype="multipart/form-data">
+                <div class="row row-fluid">
+                  {% csrf_token %}
+                    <div class="col-lg-6 col-md-6 col-sm-6">
+                       
+                        {{form.media}}
+                        {% if form.as_p %}
+                        {{form.as_p}}
+                        {% endif %} 
+                    </div>
+                    <br><br><br><br><br><br><br><br>
+                    <div class="text-center pd col-lg-12 col-md-6 col-sm-6">
+                      <br><br>
+                        <button class="btn btn-light btn-radius btn-brd grd1 btn-block">UPDATE</button>
+                        <br><br><br>
+                    </div>
+                    
+                </div>
+            </form>
+
+        </div>
+
+      {% else %}
+        <div class="all-title-box" style="background-image: url({% static 'images/crying-white-boy.jpg' %}); background-size:cover; background-repeat:no-repeat;">
+            <div class="container text-center">
+              <h1>Blog<span class="m_1">Sorry, only the Author has the Permissions to Edit this Post..</span></h1>
+            </div>
+          </div>
+      {% endif %}
+
+    {% else %}
+      <div class="all-title-box" style="background-image: url({% static 'images/crying-white-boy.jpg' %}); height:100vh ;background-size:cover; background-repeat:no-repeat;">
+        <div class="container text-center">
+          <h1>Blog<br><br><span class="m_1">Sorry, you do not have permissions to view this page! </span></h1>
+        </div>
+
+      </div>
+
+    {% endif %}
+
+
+
+
+
+{% endblock %}

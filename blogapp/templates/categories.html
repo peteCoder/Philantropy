@@ -1,0 +1,148 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}
+  CATEGORY
+{% endblock %}
+
+{% block content %}
+
+
+
+    <!-- Start header -->
+  <header class="top-navbar">
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+      <div class="container-fluid">
+        <a class="navbar-brand" href="{% url 'home' %}">
+          <img src="{% static 'images/gift_a_child_logo.png' %}" alt="" style="max-width: 100px;"/>
+        </a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbars-host" aria-controls="navbars-rs-food" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbars-host">
+          <ul class="navbar-nav ml-auto">
+            <li class="nav-item"><a class="nav-link" href="{% url 'home' %}">Home</a></li>
+            <li class="nav-item"><a class="nav-link" href="{% url 'about' %}">About Us</a></li>
+            <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle" href="#" id="dropdown-a" data-toggle="dropdown">Activities </a>
+              <div class="dropdown-menu" aria-labelledby="dropdown-a">
+                <a class="dropdown-item" href="{% url 'gallery' %}">Gallery</a>
+                
+              </div>
+            </li>
+            <li class="nav-item active">
+              <a class="nav-link" href="{% url 'blog' %}">Blog </a>
+            </li>
+              
+            <li class="nav-item"><a class="nav-link" href="{% url 'team' %}">Team</a></li>
+            <li class="nav-item"><a class="nav-link" href="{% url 'contact' %}">Contact</a></li>
+          </ul>
+          {% if not user.is_authenticated %}
+
+            <ul class="nav navbar-nav navbar-right">
+              <li><a class="hover-btn-new log orange" href="{% url 'login' %}"><span>Login</span></a></li>
+            </ul>
+
+          {% else %}
+            {% if user.profile.id %}
+              <ul class="navbar-nav ml-auto">
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                      {{user.first_name}} {{user.last_name}}
+                    </a>
+                    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                      {% if user.is_staff %}
+                        <a class="dropdown-item" href="{% url 'add_post' %}">Add Post</a>
+                      {% endif %}
+                      <a class="dropdown-item" href="{% url 'logout' %}">Logout</a>
+
+                      <a class="dropdown-item" href="{% url 'edit_profile' %}">Edit Profile Setting</a>
+                      {% if user.profile.id %}
+                      <a class="dropdown-item" href="{% url 'edit_profile_page' user.profile.id %}">Edit Profile</a>
+                      <a class="dropdown-item" href="{% url 'show_profile_page' user.profile.id %}">View Profile</a>
+                      {% else %}
+                      <a class="dropdown-item" href="{% url 'create_profile_page' %}">Create Profile</a>
+                      {% endif %}
+                    </div>
+                </li>
+              </ul>
+            {% endif %}
+          {% endif %}
+          
+        </div>
+      </div>
+    </nav>
+  </header>
+  <!-- End header -->
+
+<div class="all-title-box" style="background-image: url({% static 'images/crying-white-boy.jpg' %}); background-size:cover; background-repeat:no-repeat;">
+      <div class="container text-center">
+        <h1>The Blog<span class="m_1">Gift A Child Initiative</span></h1>
+      </div>
+  </div>
+
+    <div class=container style="text-align: center; margin-top: 80px;">
+      <h1 style=" font-size: 3rem; font-weight: bold; color: crimson;">{{ cats }}</h1>
+    </div>
+  
+
+
+
+
+    
+
+    <div id="overviews" class="section wb">
+          <div class="container">
+              <div class="section-title row text-center">
+                  <div class="col-md-8 offset-md-2">
+                      <p class="lead"></p>
+                  </div>
+              </div><!-- end title -->
+
+              <hr class="invis">
+
+              <div class="row">
+                {% for post in category_posts %}
+                  <div class="col-lg-4 col-md-6 col-12">
+                      <div class="blog-item">
+                        <div class="image-blog">
+                          {% if post.header_image %}
+                          <img src="{{ post.header_image.url }}" alt="" class="img-fluid">
+                          {% endif %}
+                        </div>
+                        <div class="meta-info-blog">
+                          <span><i class="fa fa-calendar"></i> <a href="#">{{ post.date_created }}</a> </span>
+                          
+                          {% if user.is_staff %}
+                            {% if user.id == post.author.id %}
+                              <span><i class="fa fa-comments"></i><a href="{% url 'update_post' post.pk %}">Edit</a></span>
+                            {% endif %}
+                          {% endif %}
+                        </div>
+                        <div class="blog-title">
+                          <h2><a href="{% url 'article_detail' post.pk %}" title="">{{ post.title }}</a></h2>
+                        </div>
+                        <div class="blog-desc">
+                          <p>
+                            {{ post.body|slice:":200"|safe }}...
+                          </p>
+                        </div>
+                        <div class="blog-button">
+                          <a class="hover-btn-new orange" href="{% url 'article_detail' post.pk %}"><span>Read More<span></a>
+                            {% if user.is_staff %}
+                              {% if user.id == post.author.id %}
+                                <a class="hover-btn-new orange" href="{% url 'delete_post' post.pk %}"><span>Delete<span></a>
+                              {% endif %}
+                            {% endif %}
+                        </div>
+                     </div>
+                  </div>
+                  {% endfor %}
+              </div>
+
+        </div>
+    </div>
+
+
+{% endblock %}

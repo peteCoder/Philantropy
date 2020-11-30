@@ -1,0 +1,228 @@
+
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block content %}
+   
+
+    <!-- Start header -->
+    <header class="top-navbar">
+        <nav class="navbar navbar-expand-lg navbar-light bg-light">
+            <div class="container-fluid">
+                <a class="navbar-brand" href="{% url 'home' %}">
+                    <img src="{% static 'images/gift_a_child_logo.png' %}" alt="" style="max-width: 100px;"/>
+                </a>
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbars-host" aria-controls="navbars-rs-food" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbars-host">
+                    <ul class="navbar-nav ml-auto">
+                        <li class="nav-item"><a class="nav-link" href="{% url 'home' %}">Home</a></li>
+                        <li class="nav-item active"><a class="nav-link" href="{% url 'about' %}">About Us</a></li>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" id="dropdown-a" data-toggle="dropdown">Activities </a>
+                            <div class="dropdown-menu" aria-labelledby="dropdown-a">
+                                <a class="dropdown-item" href="{% url 'gallery' %}">Gallery</a>
+                                
+                            </div>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'blog' %}" >Blog </a>
+                            
+                        </li>
+                        <li class="nav-item"><a class="nav-link" href="{% url 'team' %}">Team</a></li>
+                        <li class="nav-item"><a class="nav-link" href="{% url 'contact' %}">Contact</a></li>
+                    </ul>
+                </div>   
+            </div>
+        </nav>
+    </header>
+    <!-- End header -->
+	
+	<div class="all-title-box" style="background-image: url({% static 'images/crying-white-boy.jpg' %}); background-size:cover; background-repeat:no-repeat;">
+        <div class="container text-center">
+            <h1>About <span class="m_1">GIFT A CHILD INITIATIVE</span></h1>
+        </div>
+    </div>
+    {% if abouts %}
+        <div id="overviews" class="section wb">
+            <div class="container">
+                <div class="section-title row text-center">
+                    <div class="col-md-8 offset-md-2">
+                        <h3>About</h3>
+                        
+                    </div>
+                </div><!-- end title -->
+                {% for about in abouts %}
+                    <div class="row align-items-center">
+                        <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12">
+                            <div class="message-box">
+                                {% if about.overall_title_in_red_letters %}
+                                <h4>{{ about.overall_title_in_red_letters|safe }}</h4>
+                                {% endif %}
+                                {% if about.first_content_title %}
+                                <h2><Em>{{ about.first_content_title|safe }}</Em></h2>
+                                {% endif %}
+                                {% if about.first_content %}
+                                <p>{{ about.first_content|safe }}</p>
+                                {% endif %}
+                            </div><!-- end messagebox -->
+                        </div><!-- end col -->
+                        
+                        <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12">
+                            <div class="post-media wow fadeIn">
+                                {% if about.image_of_first_content %}
+                                <img src="{{ about.image_of_first_content.url }}" alt="" class="img-fluid img-rounded">
+                                {% endif %}
+                            </div><!-- end media -->
+                        </div><!-- end col -->
+                    </div>
+                    <div class="row align-items-center">
+                        <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12">
+                            <div class="post-media wow fadeIn">
+                                {% if about.image_of_second_content %}
+                                <img src="{{ about.image_of_second_content.url }}" alt="" class="img-fluid img-rounded">
+                                {% endif %}
+                            </div><!-- end media -->
+                        </div><!-- end col -->
+                        
+                        <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12">
+                            <div class="message-box">
+                                {% if about.second_content_title %}
+                                <h2>{{ about.second_content_title| safe }}</h2>
+                                {% endif %}
+                                {% if about.second_content %}
+                                <p>{{ about.second_content|safe }}</p>
+                                {% endif %}
+                            </div><!-- end messagebox -->
+                        </div><!-- end col -->
+                        
+                    </div><!-- end row -->
+                {% endfor %}
+            </div><!-- end container -->
+        </div><!-- end section -->
+
+    {% endif %}
+    {% if short_abouts %}
+    	<div class="hmv-box">
+    		<div class="container">
+    			<div class="row">
+                    {% for short_about in short_abouts %}
+    				<div class="col-lg-4 col-md-6 col-12">
+    					<div class="inner-hmv">
+                            {% if short_about.flaticon %}
+    						  <div class="icon-box-hmv"><i class="{{ short_about.flaticon }}"></i></div>
+                            {% endif %}
+                            {% if short_about.name %}
+    						  <h3>{{ short_about.name }}</h3>
+                            {% endif %}
+                            {% if short_about.first_letter_of_name_in_capital_letter %}
+    						  <div class="tr-pa">{{ short_about.first_letter_of_name_in_capital_letter }}</div>
+                            {% endif %}
+                            {% if short_about.short_description  %}
+    						  <p>{{ short_about.short_description }}</p>
+                            {% endif %}
+                        </div>
+    				</div>
+                    {% endfor %}
+    			</div>
+    		</div>
+            <br><br><br>
+        </div>
+    {% endif %}
+
+    {% if team_members %}
+        <div class="all-title-box">
+            <div class="container text-center">
+                <br><br><br>
+                <div class="section-title row text-center">
+                    <div class="col-md-8 offset-md-2">
+                        <h3> Our Team</h3>
+                        
+                    </div>
+                </div>
+            </div>
+            
+            <div id="teachers" class="section wb">
+                <div class="container">
+                    <div class="row">
+                        {% for team_member in team_members %}
+                        <div class="col-lg-3 col-md-6 col-12">
+                            <div class="our-team">
+                                <div class="team-img">
+                                    <img src="{{team_member.team_image.url}}">
+                                    <div class="social">
+                                        <ul>
+                                            {% if team_member.facebook_url %}
+                                            <li><a href="{{team_member.facebook_url}}" class="fa fa-facebook"></a></li>
+                                            {% endif %}
+
+                                            {% if team_member.twitter_url %}
+                                            <li><a href="{{team_member.twitter_url}}" class="fa fa-twitter"></a></li>
+                                            {% endif %}
+
+                                            {% if team_member.linkedin_url %}
+                                            <li><a href="{{team_member.linkedin_url}}" class="fa fa-linkedin"></a></li>
+                                            {% endif %}
+
+                                            {% if team_member.instagram_url %}
+                                            <li><a href="{{team_member.instagram_url}}" class="fa fa-instagram"></a></li>
+                                            {% endif %}
+
+                                            {% if team_member.pinterest_url %}
+                                            <li><a href="{{team_member.pinterest_url}}" class="fa fa-pinterest"></a></li>
+                                            {% endif %}
+                                        </ul>
+                                    </div>
+                                </div>
+                                <div class="team-content">
+                                    <h3 class="title">{{team_member.name}}</h3>
+                                    <span class="post">{{team_member.position}}</span>
+                                </div>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div><!-- end row -->
+                </div><!-- end container -->
+            </div><!-- end section -->
+        </div>
+    {% endif %}
+
+
+    {% if testify %}
+    <div id="testimonials" class="parallax section db parallax-off" style="background-image:url({% static 'images/poor-child.jpg' %});">
+        <div class="container">
+            <div class="section-title text-center">
+              <h3>Testimonials</h3>
+
+              <p>THE THINGS PEOPLE SAY ABOUT US</p>
+
+            </div><!-- end title -->
+
+            <div class="row">
+              <div class="col-md-12 col-sm-12">
+                  <div class="testi-carousel owl-carousel owl-theme">
+                    {% for test in testify %}
+                      <div class="testimonial clearfix">
+                          <div class="testi-meta">
+                              <img src="{{test.testifier_image.url}}" alt="" class="img-fluid">
+                              <h4>{{ test.testifier_name }}</h4>
+                          </div>
+                          <div class="desc">
+                              <h3><i class="fa fa-quote-left"></i> {{ test.remark }}</h3>
+                              <p class="lead">{{ test.testimony }}</p>
+                          </div>
+                          <!-- end testi-meta -->
+                      </div><!-- end testimonial -->
+                    {% endfor %}
+                  </div><!-- end carousel -->
+              </div><!-- end col -->
+            </div><!-- end row -->
+        </div><!-- end container -->
+    </div><!-- end section -->
+    {% endif %}
+
+{% endblock %}

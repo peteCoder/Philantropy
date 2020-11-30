@@ -1,0 +1,87 @@
+
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block content %}	
+		
+
+    <!-- Start header -->
+	<header class="top-navbar">
+		<nav class="navbar navbar-expand-lg navbar-light bg-light">
+			<div class="container-fluid">
+				<a class="navbar-brand" href="{% url 'home' %}">
+					<img src="{% static 'images/gift_a_child_logo.png' %}" alt="" style="max-width: 100px;"/>
+				</a>
+				<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbars-host" aria-controls="navbars-rs-food" aria-expanded="false" aria-label="Toggle navigation">
+					<span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+				</button>
+				<div class="collapse navbar-collapse" id="navbars-host">
+					<ul class="navbar-nav ml-auto">
+						<li class="nav-item"><a class="nav-link" href="{% url 'home' %}">Home</a></li>
+						<li class="nav-item"><a class="nav-link" href="{% url 'about' %}">About Us</a></li>
+						<li class="nav-item dropdown">
+							<a class="nav-link dropdown-toggle" href="#" id="dropdown-a" data-toggle="dropdown">Activities </a>
+							<div class="dropdown-menu" aria-labelledby="dropdown-a">
+								<a class="dropdown-item" href="{% url 'gallery' %}">Gallery</a>
+								
+							</div>
+						</li>
+						<li class="nav-item">
+                            <a class="nav-link" href="{% url 'blog' %}" >Blog </a>
+                            
+                        </li>
+						<li class="nav-item"><a class="nav-link" href="{% url 'team' %}">Team</a></li>
+						<li class="nav-item active"><a class="nav-link active" href="{% url 'contact' %}">Contact</a></li>
+					</ul>
+					
+				</div>
+			</div>
+		</nav>
+	</header>
+	<!-- End header -->
+	
+
+	<div class="all-title-box" style="background-image: url({% static 'images/crying-white-boy.jpg' %}); background-size:cover; background-repeat:no-repeat;">
+		<div class="container text-center">
+			<h1>Contact<span class="m_1">US</span></h1>
+		</div>
+	</div>
+
+	<div id="contact" class="section wb">
+		<div class="container">
+			<div class="section-title text-center">
+				<div class="section-title text-center">
+				  <h3>Want to be a part of this wonderful opportunity? Contact us here!</h3>
+				  <p class="lead">We are glad to hear from you! <br>It is a pleasure to receive your feedback!</p>
+				</div><!-- end title -->
+
+				<div class="row" >
+				  	<div class="col-xl-6 col-md-12 col-sm-12">
+					    <div class="contact_form">
+					        <div id="message"></div>
+					        <form id="contactform" class="" action="" name="contactform" method="POST">
+					            <div class="row row-fluid">
+					              {% csrf_token %}
+					                <div class="col-lg-6 col-md-6 col-sm-6">
+					                    {{form}}
+					                </div>
+					                
+					                <div class="text-center pd col-lg-12 col-md-6 col-sm-6">
+					                    <button class="btn btn-light btn-radius btn-brd grd1 btn-block">SEND</button>
+					                </div>
+					                
+					            </div>
+					        </form>
+					    </div>
+					    <br><br>
+		  			</div>
+		  			
+				</div>
+			</div>
+		</div>
+	</div>
+
+{% endblock %}
