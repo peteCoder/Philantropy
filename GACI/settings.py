@@ -31,7 +31,7 @@ SECRET_KEY = config('SECRET_KEY')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = config('DEBUG')
 
-ALLOWED_HOSTS = ['giftachildapp.herokuapp.com', '127.0.0.1']
+ALLOWED_HOSTS = ['mygiftachildinitiativeapp.herokuapp.com', '127.0.0.1']
 
 
 # Application definition
