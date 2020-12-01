@@ -110,9 +110,9 @@ body {
     line-height: 1.80857;
 }
 
-body.demos .section {
-    background: url("/static/images/bg.png") repeat top center #f2f3f5;
-}
+/*body.demos .section {
+    background: url("/static/images/bg_1.png") repeat top center #f2f3f5;
+}*/
 
 body.demos .section-title img {
     max-width: 280px;
