@@ -27,9 +27,9 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 SECRET_KEY = os.environ.get("SECRET_KEY")
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
-ALLOWED_HOSTS = ['giftachildapp.herokuapp.com', '127.0.0.1']
+ALLOWED_HOSTS = [] #['giftachildapp.herokuapp.com', '127.0.0.1']
 
 
 # Application definition
@@ -50,6 +50,30 @@ INSTALLED_APPS = [
 
 ]
 
+if DEBUG is False:
+    CORS_REPLACE_HTTPS_REFERER = True
+    HOST_SCHEME = "https//"
+    SECURE_SSL_REDIRECT = True
+    SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARD_PROTO', 'https')
+    SESSION_COOKIE_SECURE = True
+    CSRF_COOKIE_SECURE = True
+    SECURE_HSTS_INCLUDE_SUBDOMAINS = True
+    SECURE_HTST_SECONDS = 1000000
+    SECURE_FRAME_DENY = True
+
+else:
+    CORS_REPLACE_HTTPS_REFERER = False
+    HOST_SCHEME = "http//"
+    SECURE_SSL_REDIRECT = False
+    SECURE_PROXY_SSL_HEADER = None
+    SESSION_COOKIE_SECURE = False
+    CSRF_COOKIE_SECURE = False
+    SECURE_HSTS_INCLUDE_SUBDOMAINS = False
+    SECURE_HTST_SECONDS = None
+    SECURE_FRAME_DENY = False
+
+
+
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'whitenoise.middleware.WhiteNoiseMiddleware',
@@ -60,6 +84,9 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
+
+
+
 
 ROOT_URLCONF = 'GACI.urls'
 
@@ -153,7 +180,7 @@ STATICFILES_DIRS = [
     os.path.join(BASE_DIR, 'static')
 ]
 
-
+#STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 
 EMAIL_HOST_USER = os.environ.get("EMAIL_HOST_USER")
