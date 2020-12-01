@@ -110,7 +110,7 @@
                       </div>
                       <div class="meta-info-blog">
                         <span><i class="fa fa-calendar"></i> <a href="#">{{ post.date_created }}</a> </span>
-                        <span><i class="fa fa-tag"></i><a href="{% url 'category' post.category|slugify %}">{{ post.category }}</a> </span>
+                        
                         {% if user.is_staff %}
                           {% if user.id == post.author.id %}
                             <span><i class="fa fa-comments"></i><a href="{% url 'update_post' post.pk %}">Edit</a></span>

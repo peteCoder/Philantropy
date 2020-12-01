@@ -37,14 +37,14 @@ class Blog(ListView):
 
 
     def get_context_data(self, *args, **kwargs):
-        cat_menu = Category.objects.all()
+        
         context = super(Blog, self).get_context_data(*args, **kwargs)
-        context["cat_menu"] = cat_menu
+       
         return context
 
 
 def blog_single(request, pk):
-    cat_menu = Category.objects.all()
+    
     obj = get_object_or_404(Post, pk=pk)
 
     stuff = get_object_or_404(Post, pk=pk)
@@ -56,7 +56,7 @@ def blog_single(request, pk):
 
     context = {
     'obj':obj,
-    'cat_menu':cat_menu,
+   
     'total_likes': total_likes,
     }
     return render(request, "blog-single.html", context)
@@ -84,9 +84,9 @@ class AddPostView(CreateView):
     success_url = reverse_lazy("blog")
 
     def get_context_data(self, *args, **kwargs):
-        cat_menu = Category.objects.all()
+        
         context = super(AddPostView, self).get_context_data(*args, **kwargs)
-        context['cat_menu'] = cat_menu
+       
         return context
 
 class UpdatePostView(UpdateView):
@@ -96,9 +96,9 @@ class UpdatePostView(UpdateView):
     success_url = reverse_lazy('blog')
 
     def get_context_data(self, *args, **kwargs):
-        cat_menu = Category.objects.all()
+        
         context = super(UpdatePostView, self).get_context_data(*args, **kwargs)
-        context['cat_menu'] = cat_menu
+      
         return context
 
 class DeletePostView(DeleteView):
@@ -107,55 +107,10 @@ class DeletePostView(DeleteView):
     success_url = reverse_lazy("blog")
 
     def get_context_data(self, *args, **kwargs):
-        cat_menu = Category.objects.all()
-        #footer_info = FooterInfo.objects.all()
+       
         context = super(DeletePostView, self).get_context_data(*args, **kwargs)
-        context['cat_menu'] = cat_menu
-        #context['footer_info'] = footer_info
-        return context
-
-
-
-########################## CATEGORY VIEW ########################################
-
-class AddCategoryView(CreateView):
-    model = Category
-    form_class = CatForm
-    template_name = 'edit_blog/add_category.html'
-    success_url = reverse_lazy("blog")
-    #fields = '__all__'
-    #fields = ['title', 'title_tag', 'body']
-
-    def get_context_data(self, *args, **kwargs):
-        cat_menu = Category.objects.all()
         
-        context = super(AddCategoryView, self).get_context_data(*args, **kwargs)
-        context['cat_menu'] = cat_menu
-      
         return context
 
-def CategoryView(request, cats):
-    category_posts = Post.objects.filter(category__name=cats.replace('-', ' '))
-    paginator = Paginator(category_posts, 1)
-    page_number = request.GET.get("page")
-    page_obj = paginator.get_page(page_number)
-    cat_menu = Category.objects.all()
-
-    context = {
-    'cats':cats.title().replace('-', ' '),
-    'category_posts':category_posts,
-    'cat_menu':cat_menu,
-    'page_object': page_obj,
-    }
-
-    return render(request, 'categories.html', context)
 
 
-def CategoryListView(request):
-    cat_menu_list = Category.objects.all()
-    
-    context = {
-                'cat_menu_list':cat_menu_list, 
-               
-                }
-    return render(request, 'category_list.html', context)

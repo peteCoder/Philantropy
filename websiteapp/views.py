@@ -1,7 +1,7 @@
 from django.shortcuts import render, get_object_or_404, get_list_or_404, redirect, reverse
 from django.views.generic import ListView
 from .models import Team, Testimonial, Gallery, AboutPage, Help, RecentEvents, ShortDiscriptionInAboutPage
-from blogapp.models import Category
+
 from .forms import ContactForm
 
 from django.views.decorators.csrf import csrf_exempt
@@ -64,10 +64,10 @@ def contact(request):
 	else:
 		form = ContactForm()
 
-	cat_menu = Category.objects.all()
+
 	context = {
 		'form': form,
-		'cat_menu':cat_menu
+	
 	}
 
 	return render(request, 'Main/contact.html', context)
@@ -95,11 +95,11 @@ class TeamView(ListView):
 	def get_context_data(self, *args, **kwargs):
 		team_members = Team.objects.all()
 		testify = Testimonial.objects.all()
-		cat_menu = Category.objects.all()
+	
 		context = super(TeamView, self).get_context_data(*args, **kwargs)
 		context['team_members'] = team_members
 		context['testify'] = testify
-		context['cat_menu'] = cat_menu
+	
 
 		return context
 

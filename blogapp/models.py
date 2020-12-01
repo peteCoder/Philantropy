@@ -8,17 +8,6 @@ from django.contrib.contenttypes.fields import GenericRelation
 from comment.models import Comment
 
 
-class Category(models.Model):
-    name = models.CharField(max_length=255)
-    
-    def __str__(self):
-        return self.name
-
-    def get_absolute_url(self):
-        return reverse('home')
-
-    class Meta:
-        verbose_name_plural = "Category"
 
 
 class Post(models.Model):
@@ -31,7 +20,6 @@ class Post(models.Model):
 	title_intro = models.TextField(blank=True, null=True)
 	quote = RichTextField(blank=True, null=True)
 	date_created = models.DateTimeField(auto_now_add=True)
-	category = models.ForeignKey(Category, on_delete=models.CASCADE, default=1)
 	likes = models.ManyToManyField(User, related_name='blog_posts', blank=True)
 	snippet = models.CharField(max_length=255, default='Read More')
 	video_file = models.FileField(blank=True, null=True, upload_to="Blogapp/video/")
