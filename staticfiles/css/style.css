@@ -110,9 +110,6 @@ body {
     line-height: 1.80857;
 }
 
-/*body.demos .section {
-    background: url("/static/images/bg_1.png") repeat top center #f2f3f5;
-}*/
 
 body.demos .section-title img {
     max-width: 280px;
@@ -1971,7 +1968,7 @@ hr.invis1 {
     width: 100%;
     height: 100%;
     position: relative;
-    background: url("/static/uploads/code.jpg") no-repeat;
+   
 }
 
 .design-wrapper {
