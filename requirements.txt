@@ -9,6 +9,7 @@ django-paypal==1.0.0
 gunicorn==20.0.4
 idna==2.10
 Pillow==8.0.1
+psycopg2==2.8.6
 python-decouple==3.3
 pytz==2020.4
 requests==2.25.0
