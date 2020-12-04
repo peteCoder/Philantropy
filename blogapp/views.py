@@ -37,8 +37,10 @@ class Blog(ListView):
 
 
     def get_context_data(self, *args, **kwargs):
+        cat_menu = Category.objects.all()
         
         context = super(Blog, self).get_context_data(*args, **kwargs)
+        context['cate_menu'] = cat_menu
        
         return context
 
@@ -46,7 +48,7 @@ class Blog(ListView):
 def blog_single(request, pk):
     
     obj = get_object_or_404(Post, pk=pk)
-
+    cat_menu = Category.objects.all()
     stuff = get_object_or_404(Post, pk=pk)
     total_likes = stuff.total_likes()
 
@@ -56,7 +58,7 @@ def blog_single(request, pk):
 
     context = {
     'obj':obj,
-   
+    'cat_menu':cat_menu,
     'total_likes': total_likes,
     }
     return render(request, "blog-single.html", context)
@@ -113,4 +115,32 @@ class DeletePostView(DeleteView):
         return context
 
 
+
+########################## CATEGORY VIEW ########################################
+
+def CategoryView(request, cats):
+    category_posts = Post.objects.filter(category__name=cats.replace('-', ' '))
+    paginator = Paginator(category_posts, 1)
+    page_number = request.GET.get("page")
+    page_obj = paginator.get_page(page_number)
+    cat_menu = Category.objects.all()
+
+    context = {
+    'cats':cats.title().replace('-', ' '),
+    'category_posts':category_posts,
+    'cat_menu':cat_menu,
+    'page_object': page_obj,
+    }
+
+    return render(request, 'categories.html', context)
+
+
+def CategoryListView(request):
+    cat_menu_list = Category.objects.all()
+    
+    context = {
+                'cat_menu_list':cat_menu_list, 
+               
+                }
+    return render(request, 'category_list.html', context)
 

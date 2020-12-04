@@ -65,8 +65,7 @@
 		      				  {% if user.profile.id %}
 		      					<a class="dropdown-item" href="{% url 'edit_profile_page' user.profile.id %}">Edit Profile</a>
 		      					<a class="dropdown-item" href="{% url 'show_profile_page' user.profile.id %}">View Profile</a>
-		      				  {% else %}
-		      					<a class="dropdown-item" href="{% url 'create_profile_page' %}">Create Profile</a>
+		      				  
 		      				  {% endif %}
 			                </div>
               				</li>
@@ -101,7 +100,7 @@
 							</div>
 							<div class="meta-info-blog">
 								<span><i class="fa fa-calendar"></i> <a href="#">{{ obj.date_created }}</a> </span>
-								
+								<span><i class="fa fa-list"></i>  <a href="{% url 'category' obj.category|slugify %}">{{ obj.category}}</a> </span>
 							</div>
 							<div class="blog-title">
 								<h2><a href="#" title="">{{ obj.title }}</a></h2>
@@ -218,8 +217,8 @@
 						<h3 class="widget-title">Categories</h3>
 						<ul>
 							{% for item in cat_menu %}
-		              		<li><a class="dropdown-item" href="{% url 'category' item|slugify %}">{{item}}</a></li>
-		            		{% endfor %}
+		              			<li><a class="dropdown-item" href="{% url 'category' item|slugify %}">{{item}}</a></li>
+		          			{% endfor %}
 						</ul>
 					</div>
 					<div class="widget-tags">
@@ -227,9 +226,9 @@
 						<ul class="tags">
 							{% for item in cat_menu %}
   						    <li>
-	  		                	<a class="dropdown-item" href="{% url 'category' item|slugify %}">{{item}}</a>
-	  		              	</li>
-		              	{% endfor %}
+	                			<a class="dropdown-item" href="{% url 'category' item|slugify %}">{{item}}</a>
+	              			</li>
+            				{% endfor %}
 						</ul>
 					</div>
 				</div>

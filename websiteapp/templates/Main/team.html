@@ -40,7 +40,36 @@
 						<li class="nav-item"><a class="nav-link" href="{% url 'contact' %}">Contact</a></li>
 					</ul>
 
-					
+					{% if not user.is_authenticated %}
+
+			            <ul class="nav navbar-nav navbar-right">
+			              <li><a class="hover-btn-new log orange" href="{% url 'login' %}"><span>Login</span></a></li>
+			            </ul>
+
+			        {% else %}
+			            {% if user.profile.id %}
+			              <ul class="navbar-nav ml-auto">
+			                <li class="nav-item dropdown">
+			                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+			                      {{user.first_name}} {{user.last_name}}
+			                    </a>
+			                    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+			                      {% if user.is_staff %}
+			                        <a class="dropdown-item" href="{% url 'add_post' %}">Add Post</a>
+			                      {% endif %}
+			                      <a class="dropdown-item" href="{% url 'logout' %}">Logout</a>
+
+			                      <a class="dropdown-item" href="{% url 'edit_profile' %}">Edit Profile Setting</a>
+			                      {% if user.profile.id %}
+			                      <a class="dropdown-item" href="{% url 'edit_profile_page' user.profile.id %}">Edit Profile</a>
+			                      <a class="dropdown-item" href="{% url 'show_profile_page' user.profile.id %}">View Profile</a>
+			                    
+			                      {% endif %}
+			                    </div>
+			                </li>
+			              </ul>
+			            {% endif %}
+			        {% endif %}
 					
 				</div>
 			</div>
@@ -48,89 +77,90 @@
 	</header>
 	<!-- End header -->
 
-{% if team_members %}
+	
 
 	<div class="all-title-box" style="background-image: url({% static 'images/crying-white-boy.jpg' %}); background-size:cover; background-repeat:no-repeat;">
 		<div class="container text-center">
 			<h1>Our Team<span class="m_1">Gift A Child Initiative</span></h1>
 		</div>
 	</div>
+	{% if team_members %}
+		<div id="teachers" class="section wb">
+			<div class="container">
+				<div class="row">
+					{% for team_member in team_members %}
+					<div class="col-lg-3 col-md-6 col-12">
+						<div class="our-team">
+							<div class="team-img">
+								<img src="{{team_member.team_image.url}}">
+								<div class="social">
+									<ul>
+										{% if team_member.facebook_url %}
+										<li><a href="{{team_member.facebook_url}}" class="fa fa-facebook"></a></li>
+										{% endif %}
 
-	<div id="teachers" class="section wb">
-		<div class="container">
-			<div class="row">
-				{% for team_member in team_members %}
-				<div class="col-lg-3 col-md-6 col-12">
-					<div class="our-team">
-						<div class="team-img">
-							<img src="{{team_member.team_image.url}}">
-							<div class="social">
-								<ul>
-									{% if team_member.facebook_url %}
-									<li><a href="{{team_member.facebook_url}}" class="fa fa-facebook"></a></li>
-									{% endif %}
+										{% if team_member.twitter_url %}
+										<li><a href="{{team_member.twitter_url}}" class="fa fa-twitter"></a></li>
+										{% endif %}
 
-									{% if team_member.twitter_url %}
-									<li><a href="{{team_member.twitter_url}}" class="fa fa-twitter"></a></li>
-									{% endif %}
+										{% if team_member.linkedin_url %}
+										<li><a href="{{team_member.linkedin_url}}" class="fa fa-linkedin"></a></li>
+										{% endif %}
 
-									{% if team_member.linkedin_url %}
-									<li><a href="{{team_member.linkedin_url}}" class="fa fa-linkedin"></a></li>
-									{% endif %}
+										{% if team_member.instagram_url %}
+										<li><a href="{{team_member.instagram_url}}" class="fa fa-instagram"></a></li>
+										{% endif %}
 
-									{% if team_member.instagram_url %}
-									<li><a href="{{team_member.instagram_url}}" class="fa fa-instagram"></a></li>
-									{% endif %}
-
-									{% if team_member.pinterest_url %}
-									<li><a href="{{team_member.pinterest_url}}" class="fa fa-pinterest"></a></li>
-									{% endif %}
-								</ul>
+										{% if team_member.pinterest_url %}
+										<li><a href="{{team_member.pinterest_url}}" class="fa fa-pinterest"></a></li>
+										{% endif %}
+									</ul>
+								</div>
+							</div>
+							<div class="team-content">
+								<h3 class="title">{{team_member.name}}</h3>
+								<span class="post">{{team_member.position}}</span>
 							</div>
 						</div>
-						<div class="team-content">
-							<h3 class="title">{{team_member.name}}</h3>
-							<span class="post">{{team_member.position}}</span>
-						</div>
 					</div>
-				</div>
-				{% endfor %}
-			</div><!-- end row -->
-		</div><!-- end container -->
-	</div><!-- end section -->
-{% endif %}
-		<div id="testimonials" class="parallax section db parallax-off" style="background-image:url({% static 'images/poor-child.jpg' %});">
-	          <div class="container">
-	          	{% if testify %}
-	              <div class="section-title text-center">
-	                  <h3>Testimonials</h3>
+					{% endfor %}
+				</div><!-- end row -->
+			</div><!-- end container -->
+		</div><!-- end section -->
 
-	                  <p>THE THINGS PEOPLE SAY ABOUT US</p>
+			<div id="testimonials" class="parallax section db parallax-off" style="background-image:url({% static 'images/poor-child.jpg' %});">
+		          <div class="container">
+		          	{% if testify %}
+		              <div class="section-title text-center">
+		                  <h3>Testimonials</h3>
 
-	              </div><!-- end title -->
-	            {% endif %}
+		                  <p>THE THINGS PEOPLE SAY ABOUT US</p>
 
-	              <div class="row">
-	                  <div class="col-md-12 col-sm-12">
-	                      <div class="testi-carousel owl-carousel owl-theme">
-	                        {% for test in testify %}
-	                          <div class="testimonial clearfix">
-	                              <div class="testi-meta">
-	                                  <img src="{{test.testifier_image.url}}" alt="" class="img-fluid">
-	                                  <h4>{{ test.testifier_name }}</h4>
-	                              </div>
-	                              <div class="desc">
-	                                  <h3><i class="fa fa-quote-left"></i> {{ test.remark }}</h3>
-	                                  <p class="lead">{{ test.testimony }}</p>
-	                              </div>
-	                              <!-- end testi-meta -->
-	                          </div><!-- end testimonial -->
-	                        {% endfor %}
-	                      </div><!-- end carousel -->
-	                  </div><!-- end col -->
-	              </div><!-- end row -->
-	          </div><!-- end container -->
-	      </div><!-- end section -->
+		              </div><!-- end title -->
+		            {% endif %}
+
+		              <div class="row">
+		                  <div class="col-md-12 col-sm-12">
+		                      <div class="testi-carousel owl-carousel owl-theme">
+		                        {% for test in testify %}
+		                          <div class="testimonial clearfix">
+		                              <div class="testi-meta">
+		                                  <img src="{{test.testifier_image.url}}" alt="" class="img-fluid">
+		                                  <h4>{{ test.testifier_name }}</h4>
+		                              </div>
+		                              <div class="desc">
+		                                  <h3><i class="fa fa-quote-left"></i> {{ test.remark }}</h3>
+		                                  <p class="lead">{{ test.testimony }}</p>
+		                              </div>
+		                              <!-- end testi-meta -->
+		                          </div><!-- end testimonial -->
+		                        {% endfor %}
+		                      </div><!-- end carousel -->
+		                  </div><!-- end col -->
+		              </div><!-- end row -->
+		          </div><!-- end container -->
+		      </div><!-- end section -->
+	{% endif %}
 {% endblock %}
 
    
