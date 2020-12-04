@@ -4,6 +4,7 @@
 import os
 from django.utils.translation import ugettext_lazy as _
 from decouple import config
+import django_heroku
 
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -20,7 +21,7 @@ SECRET_KEY = config('SECRET_KEY')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []#['127.0.0.1', 'mygiftachildapp.herokuapp.com']
+ALLOWED_HOSTS = ['mygiftachildinitiativeapp.herokuapp.com', '127.0.0.1']
 
 # Application definition
 
@@ -165,3 +166,6 @@ COMMENT_FROM_EMAIL = config('COMMENT_FROM_EMAIL')
 
 LOGIN_REDIRECT_URL = 'home'
 LOGOUT_REDIRECT_URL = 'home'
+
+
+django_heroku.settings(locals())
