@@ -4,7 +4,7 @@
 import os
 from django.utils.translation import ugettext_lazy as _
 from decouple import config
-import django_heroku
+# import django_heroku
 
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -110,11 +110,11 @@ COMMENT_FLAG_REASONS = [
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'dbgift', 
+        'NAME': 'railway', 
         'USER': 'postgres', 
-        'PASSWORD': config("POSTGRES_PASSWORD"),
-        'HOST': '127.0.0.1', 
-        'PORT': '5432',
+        'PASSWORD': 'hxXN0Kn9wfGuZEg5GIW3',
+        'HOST': 'containers-us-west-186.railway.app', 
+        'PORT': '6702',
     }
 }
 
@@ -176,6 +176,7 @@ EMAIL_HOST_PASSWORD = config("EMAIL_HOST_PASSWORD")
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'smtp.gmail.com'
 
+
 COMMENT_ALLOW_ANONYMOUS = True
 COMMENT_FROM_EMAIL = config('COMMENT_FROM_EMAIL')
 
@@ -184,4 +185,6 @@ LOGIN_REDIRECT_URL = 'home'
 LOGOUT_REDIRECT_URL = 'home'
 
 
-django_heroku.settings(locals())
+
+
+# django_heroku.settings(locals())
