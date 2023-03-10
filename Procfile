@@ -1,1 +1,1 @@
-web: gunicorn GACI.wsgi --log-file -  
+web: gunicorn 'GACI.wsgi'
