@@ -99,24 +99,24 @@ COMMENT_FLAG_REASONS = [
 ]
 # Database
 
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.sqlite3',
-#         'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
-#     }
-# }
-
-
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'railway', 
-        'USER': 'postgres', 
-        'PASSWORD': 'hxXN0Kn9wfGuZEg5GIW3',
-        'HOST': 'containers-us-west-186.railway.app', 
-        'PORT': '6702',
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
     }
 }
+
+
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.postgresql_psycopg2',
+#         'NAME': 'railway', 
+#         'USER': 'postgres', 
+#         'PASSWORD': 'hxXN0Kn9wfGuZEg5GIW3',
+#         'HOST': 'containers-us-west-186.railway.app', 
+#         'PORT': '6702',
+#     }
+# }
 
 
 
